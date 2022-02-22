@@ -66,6 +66,37 @@ try {
 
     $stmt2->execute();
 
+
+    /**
+     * 3. En une seule requête, ajoutez deux nouveaux utilisateurs à la table utilisateur.
+     */
+
+    $stmt = $pdo->prepare("
+        INSERT INTO user (name, first_name, email, password, address, zip_code, country) 
+        VALUES (?, ?, ?, ?, ?, ?, ?),
+               (?, ?, ?, ?, ?, ?, ?);
+    ");
+
+    $stmt->execute([
+        'name', 'firstName', 'email1', 'password', 'address', 'zipCode', 'country',
+        'name', 'firstName', 'email2', 'password', 'address', 'zipCode', 'country'
+    ]);
+
+    /**
+     * 4. En une seule requête, ajoutez deux produits à la table produit.
+     */
+
+    $stmt2 = $pdo->prepare("
+        INSERT INTO product (title, price, short_description, long_description) 
+        VALUES (?, ?, ?, ?),
+               (?, ?, ?, ?);
+    ");
+
+    $stmt2->execute([
+        'tilte', '5.2', 'shortDescription', 'longDescription',
+        'tilte', '8.3', 'shortDescription', 'longDescription'
+    ]);
+
 } catch (PDOException $e) {
     echo $e;
 }
